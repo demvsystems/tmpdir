@@ -1,0 +1,29 @@
+{
+    "name": "demvsystems/tmpdir",
+    "description": "A lightweight solution for handling directories in tmp directory",
+    "type": "library",
+    "license": "GPL-3.0-only / GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Development Team",
+            "email": "developer@demv.de"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^7.5"
+    },
+    "config": {
+        "platform": {
+            "php": "7.1.29"
+        },
+        "process-timeout": 0,
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Demv\\Tmpdir\\": "src/",
+            "Demv\\Tmpdir\\Test\\": "tests/"
+        }
+    }
+}
