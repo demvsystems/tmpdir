@@ -18,7 +18,10 @@ final class TmpDirRegistry
      * @var string[]
      */
     private $dirs = [];
-
+    /**
+     * @var string[]
+     */
+    private $files = [];
     /**
      * @var TmpDirRegistry
      */
@@ -26,9 +29,18 @@ final class TmpDirRegistry
 
     public function __destruct()
     {
-        foreach ($this->dirs as $dir) {
-            self::deleteDir($dir);
-        }
+        array_map(
+            static function (string $dir): void {
+                self::deleteDir($dir);
+            },
+            $this->dirs
+        );
+        array_map(
+            static function (string $filepath): void {
+                self::deletefile($filepath);
+            },
+            $this->files
+        );
     }
 
     /**
@@ -56,14 +68,38 @@ final class TmpDirRegistry
             throw new RuntimeException('Dirname must not be empty so we do not delete entire temp directory.');
         }
 
-        $uniqueId = uniqid('', true);
-        $dir      = sys_get_temp_dir() . DIRECTORY_SEPARATOR . sprintf('%s%s', $dirname, $uniqueId);
+        $dir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . sprintf('%s_%s', $dirname, $this->getUniqid());
         if (!mkdir($dir, 0755, true) && !is_dir($dir)) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', $dir));
         }
         $this->dirs[] = $dir;
 
         return $dir;
+    }
+
+    /**
+     * @param string $dir
+     * @param string $filename
+     *
+     * @return string
+     */
+    public function createFileInSystemTmp(string $dir, string $filename): string
+    {
+        $uniqueDir = $this->createDirInSystemTmp($dir);
+        $filename  = trim($filename);
+        if ($filename === '') {
+            throw new RuntimeException('Filename must not be empty so we do not delete entire temp directory.');
+        }
+
+        $filepath = $dir . DIRECTORY_SEPARATOR . sprintf('%s_%s', $filename, $this->getUniqid());
+        $handle   = fopen($filepath, 'wb+');
+        fclose($handle);
+        if (!file_exists($filepath)) {
+            throw new RuntimeException(sprintf('File "%s" was not created', $filepath));
+        }
+        $this->files[] = $filepath;
+
+        return $filepath;
     }
 
     /**
@@ -76,7 +112,7 @@ final class TmpDirRegistry
         $dirPath = self::addSeperatorIfNecessary($dirPath);
 
         if (!is_dir($dirPath)) {
-            throw new InvalidArgumentException("$dirPath must be a directory");
+            throw new InvalidArgumentException(sprintf('%s must be a directory', $dirPath));
         }
 
         $files = self::getFiles($dirPath);
@@ -87,6 +123,20 @@ final class TmpDirRegistry
         }
 
         rmdir($dirPath);
+    }
+
+    /**
+     * @param string $filepath
+     */
+    private static function deleteFile(string $filepath): void
+    {
+        $filepath = self::addSeperatorIfNecessary($filepath);
+
+        if (!file_exists($filepath)) {
+            throw new InvalidArgumentException(sprintf('%s must be a file', $filepath));
+        }
+
+        unlink($filepath);
     }
 
     /**
@@ -110,5 +160,13 @@ final class TmpDirRegistry
     private static function addSeperatorIfNecessary(string $dirPath): string
     {
         return rtrim(trim($dirPath), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUniqid(): string
+    {
+        return uniqid('', true);
     }
 }

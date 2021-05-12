@@ -19,7 +19,16 @@ final class TmpDirRegistryTest extends TestCase
         self::assertEquals($instance, $anotherInstance);
     }
 
-    public function testCreateDirInSystemTmpFilename(): void
+//    public function testDestructDirectory(): void
+//    {
+//        $dirname       = 'testdirectory';
+//        $instance      = TmpDirRegistry::instance();
+//        $uniqueDirname = $instance->createDirInSystemTmp($dirname);
+//        $instance->__destruct();
+//        self::assertFileNotExists($uniqueDirname);
+//    }
+
+    public function testCreateDirInSystemTmpDirname(): void
     {
         $dirname       = 'testdirectory';
         $instance      = TmpDirRegistry::instance();
