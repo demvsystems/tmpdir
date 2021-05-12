@@ -19,14 +19,14 @@ final class TmpDirRegistryTest extends TestCase
         self::assertEquals($instance, $anotherInstance);
     }
 
-//    public function testDestructDirectory(): void
-//    {
-//        $dirname       = 'testdirectory';
-//        $instance      = TmpDirRegistry::instance();
-//        $uniqueDirname = $instance->createDirInSystemTmp($dirname);
-//        $instance->__destruct();
-//        self::assertFileNotExists($uniqueDirname);
-//    }
+    //    public function testDestructDirectory(): void
+    //    {
+    //        $dirname       = 'testdirectory';
+    //        $instance      = TmpDirRegistry::instance();
+    //        $uniqueDirname = $instance->createDirInSystemTmp($dirname);
+    //        $instance->__destruct();
+    //        self::assertFileNotExists($uniqueDirname);
+    //    }
 
     public function testCreateDirInSystemTmpDirname(): void
     {
@@ -43,5 +43,26 @@ final class TmpDirRegistryTest extends TestCase
         $instance      = TmpDirRegistry::instance();
         $uniqueDirname = $instance->createDirInSystemTmp($dirname);
         self::assertFileExists($uniqueDirname);
+    }
+
+    public function testCreateFileInSystemTmpFilename(): void
+    {
+        $dirname        = 'testdirectory';
+        $filename       = 'testfilename';
+        $instance       = TmpDirRegistry::instance();
+        $uniqueDirname  = $instance->createDirInSystemTmp($dirname);
+        $uniqueFilename = $instance->createFileInSystemTmp($uniqueDirname, $filename);
+        self::assertContains($filename, $uniqueFilename);
+        self::assertTrue(strlen($filename) < strlen($uniqueFilename));
+    }
+
+    public function testCreateFileInSystemTmp(): void
+    {
+        $dirname        = 'testdirectory';
+        $filename       = 'testfilename';
+        $instance       = TmpDirRegistry::instance();
+        $uniqueDirname  = $instance->createDirInSystemTmp($dirname);
+        $uniqueFilename = $instance->createFileInSystemTmp($uniqueDirname, $filename);
+        self::assertFileExists($uniqueFilename);
     }
 }
