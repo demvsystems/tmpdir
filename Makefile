@@ -18,4 +18,4 @@ kill:
 	docker-compose down --volumes --remove-orphans
 
 test:
-	docker-compose exec $(DOCKER_PHP_SERVICE) composer test
+	docker-compose exec php-fpm composer test
