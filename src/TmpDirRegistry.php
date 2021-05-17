@@ -35,12 +35,14 @@ final class TmpDirRegistry
             },
             $this->dirs
         );
+        $this->dirs = [];
         array_map(
             static function (string $filepath): void {
                 self::deletefile($filepath);
             },
             $this->files
         );
+        $this->files = [];
     }
 
     /**
@@ -85,14 +87,18 @@ final class TmpDirRegistry
      */
     public function createFileInSystemTmp(string $dir, string $filename): string
     {
-        $uniqueDir = $this->createDirInSystemTmp($dir);
-        $filename  = trim($filename);
+        $filename = trim($filename);
         if ($filename === '') {
             throw new RuntimeException('Filename must not be empty so we do not delete entire temp directory.');
         }
 
-        $filepath = $dir . DIRECTORY_SEPARATOR . sprintf('%s_%s', $filename, $this->getUniqid());
-        $handle   = fopen($filepath, 'wb+');
+        $info = pathinfo($filename);
+        if (!array_key_exists('extension', $info) || !array_key_exists('filename', $info)) {
+            throw new RuntimeException('Can\'t read info from filename.');
+        }
+
+        $filepath = $dir . DIRECTORY_SEPARATOR . sprintf('%s_%s.%s', $info['filename'], $this->getUniqid(), $info['extension']);
+        $handle = fopen($filepath, 'wb+');
         fclose($handle);
         if (!file_exists($filepath)) {
             throw new RuntimeException(sprintf('File "%s" was not created', $filepath));
@@ -130,8 +136,6 @@ final class TmpDirRegistry
      */
     private static function deleteFile(string $filepath): void
     {
-        $filepath = self::addSeperatorIfNecessary($filepath);
-
         if (!file_exists($filepath)) {
             throw new InvalidArgumentException(sprintf('%s must be a file', $filepath));
         }
