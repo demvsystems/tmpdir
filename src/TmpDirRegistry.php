@@ -30,19 +30,19 @@ final class TmpDirRegistry
     public function __destruct()
     {
         array_map(
-            static function (string $dir): void {
-                self::deleteDir($dir);
-            },
-            $this->dirs
-        );
-        $this->dirs = [];
-        array_map(
             static function (string $filepath): void {
                 self::deletefile($filepath);
             },
             $this->files
         );
         $this->files = [];
+        array_map(
+            static function (string $dir): void {
+                self::deleteDir($dir);
+            },
+            $this->dirs
+        );
+        $this->dirs = [];
     }
 
     /**

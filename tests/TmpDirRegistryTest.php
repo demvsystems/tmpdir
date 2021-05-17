@@ -58,19 +58,19 @@ final class TmpDirRegistryTest extends TestCase
         self::assertFileExists($uniqueDirname);
     }
 
-    //    public function testCreateFileInSystemTmpFilename(): void
-    //    {
-    //        $dirname        = 'testdirectory';
-    //        $filename       = 'testfilename.txt';
-    //        $instance       = TmpDirRegistry::instance();
-    //        $uniqueDirname  = $instance->createDirInSystemTmp($dirname);
-    //        $uniqueFilename = $instance->createFileInSystemTmp($uniqueDirname, $filename);
-    //        $info           = pathinfo($uniqueFilename);
-    //
-    //        self::assertContains($filename, $info['filename']);
-    //        self::assertTrue(strlen($filename) < strlen($uniqueFilename));
-    //    }
-    //
+    public function testCreateFileInSystemTmpFilename(): void
+    {
+        $dirname            = $this->instance->createDirInSystemTmp('testdirectory');
+        $filename           = 'testfilename.txt';
+        $uniqueFilename     = $this->instance->createFileInSystemTmp($dirname, $filename);
+        $uniqueFilenameInfo = pathinfo($uniqueFilename);
+        $filenameInfo       = pathinfo($filename);
+
+        self::assertContains($filenameInfo['filename'], $uniqueFilenameInfo['filename']);
+        self::assertEquals($filenameInfo['extension'], $uniqueFilenameInfo['extension']);
+        self::assertTrue(strlen($filename) < strlen($uniqueFilename));
+    }
+
     //    public function testCreateFileInSystemTmp(): void
     //    {
     //        $dirname        = 'testdirectory';
