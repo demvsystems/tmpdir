@@ -43,6 +43,16 @@ final class TmpDirRegistryTest extends TestCase
         self::assertDirectoryNotExists($uniqueDirname);
     }
 
+    public function testDestructFile(): void
+    {
+        $filename       = 'testfilename.txt';
+        $dirname        = 'testdirectory';
+        $dir            = $this->instance->createDirInSystemTmp($dirname);
+        $uniqueFilename = $this->instance->createFileInSystemTmp($dir, $filename);
+        $this->instance->__destruct();
+        self::assertFileNotExists($uniqueFilename);
+    }
+
     public function testCreateDirInSystemTmpDirname(): void
     {
         $dirname       = 'testdirectory';
