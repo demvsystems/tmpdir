@@ -6,7 +6,6 @@ use InvalidArgumentException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RuntimeException;
-use SplFileInfo;
 
 /**
  * Class TmpDirRegistry
@@ -98,7 +97,7 @@ final class TmpDirRegistry
         }
 
         $filepath = $dir . DIRECTORY_SEPARATOR . sprintf('%s_%s.%s', $info['filename'], $this->getUniqid(), $info['extension']);
-        $handle = fopen($filepath, 'wb+');
+        $handle   = fopen($filepath, 'wb+');
         fclose($handle);
         if (!file_exists($filepath)) {
             throw new RuntimeException(sprintf('File "%s" was not created', $filepath));
@@ -146,7 +145,7 @@ final class TmpDirRegistry
     /**
      * @param string $dirPath
      *
-     * @return RecursiveIteratorIterator|SplFileInfo[]
+     * @return RecursiveIteratorIterator
      */
     private static function getFiles(string $dirPath): RecursiveIteratorIterator
     {
