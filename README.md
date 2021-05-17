@@ -1,2 +1,2 @@
 # tmpdir
-A lightweight solution for handling directories in tmp directory
+A lightweight solution for handling directories and files in system tmp directory
