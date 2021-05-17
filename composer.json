@@ -25,5 +25,10 @@
             "Demv\\Tmpdir\\": "src/",
             "Demv\\Tmpdir\\Test\\": "tests/"
         }
+    },
+    "scripts": {
+        "test": [
+            "phpunit --testsuite all"
+        ]
     }
 }
