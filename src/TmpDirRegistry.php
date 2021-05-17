@@ -28,7 +28,6 @@ final class TmpDirRegistry
 
     public function __destruct()
     {
-
         array_map(
             static function (string $filepath): void {
                 self::deletefile($filepath);
