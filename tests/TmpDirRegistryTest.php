@@ -71,13 +71,13 @@ final class TmpDirRegistryTest extends TestCase
         self::assertTrue(strlen($filename) < strlen($uniqueFilename));
     }
 
-    //    public function testCreateFileInSystemTmp(): void
-    //    {
-    //        $dirname        = 'testdirectory';
-    //        $filename       = 'testfilename.txt';
-    //        $instance       = TmpDirRegistry::instance();
-    //        $uniqueDirname  = $instance->createDirInSystemTmp($dirname);
-    //        $uniqueFilename = $instance->createFileInSystemTmp($uniqueDirname, $filename);
-    //        self::assertFileExists($uniqueFilename);
-    //    }
+    public function testCreateFileInSystemTmp(): void
+    {
+        $dirname        = 'testdirectory';
+        $filename       = 'testfilename.txt';
+        $instance       = TmpDirRegistry::instance();
+        $uniqueDirname  = $instance->createDirInSystemTmp($dirname);
+        $uniqueFilename = $instance->createFileInSystemTmp($uniqueDirname, $filename);
+        self::assertFileExists($uniqueFilename);
+    }
 }
