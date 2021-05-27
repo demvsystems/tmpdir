@@ -62,11 +62,11 @@ final class TmpDirRegistryTest extends TestCase
     }
 
     /**
-     * @dataProvider provideTestCreateDirHasSeperatorAtTheEnd
+     * @dataProvider provideTestCreateDirHasSeparatorAtTheEnd
      *
      * @param string $dir
      */
-    public function testCreateDirHasSeperatorAtTheEnd(string $dir): void
+    public function testCreateDirHasSeparatorAtTheEnd(string $dir): void
     {
         $uniqueDirname  = $this->instance->createDirInSystemTmp($dir);
         $lastChar       = substr($uniqueDirname, -1);
@@ -108,7 +108,7 @@ final class TmpDirRegistryTest extends TestCase
     /**
      * @return string[][]
      */
-    public function provideTestCreateDirHasSeperatorAtTheEnd(): array
+    public function provideTestCreateDirHasSeparatorAtTheEnd(): array
     {
         return [
             ['testdirectory'],
