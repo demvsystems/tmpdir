@@ -70,6 +70,7 @@ final class TmpDirRegistry
         }
 
         $dir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . sprintf('%s_%s', $dirname, $this->getUniqid());
+        $dir = self::addSeperatorIfNecessary($dir);
         if (!mkdir($dir, 0755, true) && !is_dir($dir)) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', $dir));
         }
