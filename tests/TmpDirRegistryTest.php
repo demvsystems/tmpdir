@@ -61,6 +61,20 @@ final class TmpDirRegistryTest extends TestCase
         self::assertTrue(strlen($dirname) < strlen($uniqueDirname));
     }
 
+    /**
+     * @dataProvider provideTestCreateDirHasSeperatorAtTheEnd
+     *
+     * @param string $dir
+     */
+    public function testCreateDirHasSeperatorAtTheEnd(string $dir): void
+    {
+        $uniqueDirname  = $this->instance->createDirInSystemTmp($dir);
+        $lastChar       = substr($uniqueDirname, -1);
+        $nextToLastChar = substr($uniqueDirname, -2, 1);
+        self::assertEquals('/', $lastChar);
+        self::assertNotEquals('/', $nextToLastChar);
+    }
+
     public function testCreateDirInSystemTmp(): void
     {
         $dirname       = 'testdirectory';
@@ -89,5 +103,16 @@ final class TmpDirRegistryTest extends TestCase
         $uniqueDirname  = $instance->createDirInSystemTmp($dirname);
         $uniqueFilename = $instance->createFileInSystemTmp($uniqueDirname, $filename);
         self::assertFileExists($uniqueFilename);
+    }
+
+    /**
+     * @return string[][]
+     */
+    public function provideTestCreateDirHasSeperatorAtTheEnd(): array
+    {
+        return [
+            ['testdirectory'],
+            ['testdirectory/'],
+        ];
     }
 }
