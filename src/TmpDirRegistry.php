@@ -97,7 +97,7 @@ final class TmpDirRegistry
             throw new RuntimeException('Can\'t read info from filename.');
         }
 
-        $filepath = $dir . DIRECTORY_SEPARATOR . sprintf('%s_%s.%s', $info['filename'], $this->getUniqid(), $info['extension']);
+        $filepath = self::addSeperatorIfNecessary($dir . DIRECTORY_SEPARATOR) . sprintf('%s_%s.%s', $info['filename'], $this->getUniqid(), $info['extension']);
         $handle   = fopen($filepath, 'wb+');
         fclose($handle);
         if (!file_exists($filepath)) {

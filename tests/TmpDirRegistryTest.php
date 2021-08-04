@@ -95,6 +95,15 @@ final class TmpDirRegistryTest extends TestCase
         self::assertTrue(strlen($filename) < strlen($uniqueFilename));
     }
 
+    public function testCreateFileInSystemTmpHasOnlyOneSeperator(): void
+    {
+        $dirname        = $this->instance->createDirInSystemTmp('testdirectory');
+        $filename       = 'testfilename.txt';
+        $uniqueFilename = $this->instance->createFileInSystemTmp($dirname, $filename);
+
+        self::assertNotContains('//', $uniqueFilename);
+    }
+
     public function testCreateFileInSystemTmp(): void
     {
         $dirname        = 'testdirectory';
