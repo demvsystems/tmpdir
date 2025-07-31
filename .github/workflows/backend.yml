@@ -56,8 +56,7 @@ jobs:
           ini-values: memory_limit=512M, short_open_tag=On
           coverage: none
           extensions: ${{ env.PHP_EXTENSIONS }}
-        env:
-          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PRIVATE_TOKEN }}
 
       - name: Display PHP information
         run: |
