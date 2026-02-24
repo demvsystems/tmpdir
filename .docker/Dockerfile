@@ -1,4 +1,4 @@
-FROM php:7.1-fpm@sha256:8c526fa0d10f4cdb1db1dd6dc6c277fae74719bc7ea73b536ea16c389e3fe436
+FROM php:8.5-fpm@sha256:eec1cad70c74f96cb4a7bd0e05ee857796e3333c731aaf846b96dd9978f5f397
 
 COPY . .
 WORKDIR .
