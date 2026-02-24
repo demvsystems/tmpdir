@@ -26,7 +26,7 @@ jobs:
       APP_ENV: test
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
+        uses: styfle/cancel-workflow-action@85880fa0301c86cca9da44039ee3bb12d3bedbfa # 0.12.1
         with:
           ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -35,7 +35,7 @@ jobs:
 
       - name: Setup php extensions cache
         id: extcache
-        uses: shivammathur/cache-extensions@v1
+        uses: shivammathur/cache-extensions@4595bea7d6630821b0a3a4894f816402faaf324c # v1
         with:
           php-version: ${{ env.PHP_VERSION }}
           extensions: ${{ env.PHP_EXTENSIONS }}
@@ -49,7 +49,7 @@ jobs:
           restore-keys: ${{ steps.extcache.outputs.key }}
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # v2
         with:
           php-version: ${{ env.PHP_VERSION }}
           tools: ${{ env.PHP_TOOLS }}
