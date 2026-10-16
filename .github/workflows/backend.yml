@@ -35,7 +35,7 @@ jobs:
 
       - name: Setup php extensions cache
         id: extcache
-        uses: shivammathur/cache-extensions@4595bea7d6630821b0a3a4894f816402faaf324c # v1
+        uses: shivammathur/cache-extensions@82e72d795771d15c7a99152ca91ea5a95b1a9fdb # v1
         with:
           php-version: ${{ env.PHP_VERSION }}
           extensions: ${{ env.PHP_EXTENSIONS }}
